@@ -19,12 +19,9 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
-import org.eclipse.wst.jsdt.js.node.exception.NodeExceptionNotifier;
 import org.eclipse.wst.jsdt.js.node.launch.shortcut.GenericNativeNodeLaunch;
-import org.eclipse.wst.jsdt.js.node.util.NodeExternalUtil;
 import org.eclipse.wst.jsdt.js.npm.NpmPlugin;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
-import org.eclipse.wst.jsdt.js.npm.internal.ui.NpmExceptionNotifier;
 import org.eclipse.wst.jsdt.js.npm.util.NpmUtil;
 
 /**
@@ -89,16 +86,16 @@ public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
 	}
 	
 	private void launchNpm(IResource resource) throws CoreException {
-		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
-		String npmLocation = NpmUtil.getNpmExecutableLocation();
-		if (nodeLocation == null || nodeLocation.isEmpty()) {
-			NodeExceptionNotifier.nodeLocationNotDefined();
-		} else if (npmLocation == null || npmLocation.isEmpty()) {
-			NpmExceptionNotifier.npmLocationNotDefined();
-		} else {
-			this.setWorkingProject(resource.getProject());
-			launchNodeTool(getWorkingDirectory(resource), nodeLocation, npmLocation);
-		}
+//		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
+//		String npmLocation = NpmUtil.getNpmExecutableLocation();
+//		if (nodeLocation == null || nodeLocation.isEmpty()) {
+//			NodeExceptionNotifier.nodeLocationNotDefined();
+//		} else if (npmLocation == null || npmLocation.isEmpty()) {
+//			NpmExceptionNotifier.npmLocationNotDefined();
+//		} else {
+//			this.setWorkingProject(resource.getProject());
+//			launchNodeTool(getWorkingDirectory(resource), nodeLocation, npmLocation);
+//		}
 	}
 
 }

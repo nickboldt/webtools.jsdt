@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.wst.jsdt.js.npm.util;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,6 @@ import org.eclipse.wst.jsdt.js.node.util.PlatformUtil;
 import org.eclipse.wst.jsdt.js.node.util.WorkbenchResourceUtil;
 import org.eclipse.wst.jsdt.js.npm.PackageJson;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
-import org.eclipse.wst.jsdt.js.npm.internal.preference.NpmPreferenceHolder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -93,15 +91,6 @@ public final class NpmUtil {
 			workingDir = foundFiles.get(0).getParent().getFullPath().toOSString();
 		}
 		return workingDir;
-	}
-		
-	public static String getNpmExecutableLocation() {
-		String npmExecutableLocation = null;
-		File npmExecutable = new File(NpmPreferenceHolder.getNpmLocation(), NpmUtil.getNpmExecutableName());
-		if (npmExecutable != null && npmExecutable.exists()) {
-			npmExecutableLocation = npmExecutable.getAbsolutePath();
-		}
-		return npmExecutableLocation;
 	}
 	
 	public static String getNpmExecutableName() {

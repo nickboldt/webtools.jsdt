@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.wst.jsdt.js.bower.util;
 
-import java.io.File;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -26,7 +25,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.jsdt.js.bower.BowerJson;
 import org.eclipse.wst.jsdt.js.bower.Bowerrc;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
-import org.eclipse.wst.jsdt.js.bower.internal.preference.BowerPreferenceHolder;
 import org.eclipse.wst.jsdt.js.node.util.WorkbenchResourceUtil;
 
 import com.google.gson.Gson;
@@ -135,15 +133,6 @@ public final class BowerUtil {
 			}
 		}
 		return directoryName;
-	}
-	
-	public static String getBowerExecutableLocation() {
-		String bowerExecutableLocation = null;
-		File bowerExecutable = new File(BowerPreferenceHolder.getBowerLocation(), BowerConstants.BOWER);
-		if (bowerExecutable != null && bowerExecutable.exists()) {
-			bowerExecutableLocation = bowerExecutable.getAbsolutePath();
-		}
-		return bowerExecutableLocation;
 	}
 
 }
