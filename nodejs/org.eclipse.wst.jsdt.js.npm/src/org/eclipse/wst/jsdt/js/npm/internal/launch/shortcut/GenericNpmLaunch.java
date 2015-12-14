@@ -86,6 +86,8 @@ public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
 	}
 	
 	private void launchNpm(IResource resource) throws CoreException {
+// launch (project / launch config)
+		
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
 //		String npmLocation = NpmUtil.getNpmExecutableLocation();
 //		if (nodeLocation == null || nodeLocation.isEmpty()) {

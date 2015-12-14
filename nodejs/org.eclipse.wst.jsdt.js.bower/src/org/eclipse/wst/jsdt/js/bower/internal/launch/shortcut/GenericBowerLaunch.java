@@ -25,6 +25,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.bower.BowerPlugin;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
+import org.eclipse.wst.jsdt.js.bower.internal.core.BowerCLI;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
 import org.eclipse.wst.jsdt.js.node.launch.shortcut.GenericNativeNodeLaunch;
 
@@ -72,14 +73,14 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 		String workingDir = null;
 		if (resource != null && resource.exists()) {
 			if (resource.getType() == IResource.FILE && BowerConstants.BOWER_JSON.equals(resource.getName())) {
-				workingDir = resource.getParent().getFullPath().toOSString();
+				workingDir = resource.getParent().getRawLocation().makeAbsolute().toOSString();
 			} else if (resource.getType() == IResource.FOLDER) {
-				workingDir = resource.getFullPath().toOSString();
+				workingDir = resource.getRawLocation().makeAbsolute().toOSString();
 			} else if (resource.getType() == IResource.PROJECT) {
 				IProject project = (IProject) resource;
 				IFile file = project.getFile(BowerConstants.BOWER_JSON);
 				if (file.exists()) {
-					workingDir = resource.getFullPath().toOSString();
+					workingDir = resource.getRawLocation().makeAbsolute().toOSString();
 				} else {
 					try {
 						workingDir = getWorkingDirectory(project);
@@ -93,6 +94,8 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 	}
 	
 	private void launchBower(IResource resource) throws CoreException {
+		new BowerCLI(resource.getProject(), getWorkingDirectory(resource)).execute();
+		
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
 //		String bowerLocation = BowerUtil.getBowerExecutableLocation();
 //		if (nodeLocation == null || nodeLocation.isEmpty()) {
@@ -117,7 +120,7 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 		if (bowerrc != null) {
 			IContainer parent = bowerrc.getParent();
 			if (parent.exists() && parent.findMember(BowerConstants.BOWER_JSON) != null) {
-				workingDir = parent.getFullPath().toOSString();
+				workingDir = parent.getRawLocation().makeAbsolute().toOSString();
 			} else {
 				String directoryName = BowerUtil.getDirectoryName(bowerrc);
 				directoryName = (directoryName != null) ? directoryName : BowerConstants.BOWER_COMPONENTS;

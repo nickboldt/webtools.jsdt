@@ -107,7 +107,7 @@ public final class BowerUtil {
 			});
 		}
 		if (!foundFiles.isEmpty()) {
-			workingDir = foundFiles.get(0).getParent().getFullPath().toOSString();
+			workingDir = foundFiles.get(0).getParent().getRawLocation().makeAbsolute().toOSString();
 		}
 		return workingDir;
 	}

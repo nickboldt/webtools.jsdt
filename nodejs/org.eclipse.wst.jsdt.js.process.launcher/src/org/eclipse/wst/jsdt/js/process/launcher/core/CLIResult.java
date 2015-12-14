@@ -1,10 +1,9 @@
-package org.eclipse.wst.jsdt.js.process.launcher.internal.util;
+package org.eclipse.wst.jsdt.js.process.launcher.core;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.wst.jsdt.js.process.launcher.ProcessLauncher;
-import org.eclipse.wst.jsdt.js.process.launcher.core.HybridMobileStatus;
 
 /**
  * Generic execution result for Cordova CLI.

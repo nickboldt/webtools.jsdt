@@ -1,4 +1,4 @@
-package org.eclipse.wst.jsdt.js.process.launcher.internal.util;
+package org.eclipse.wst.jsdt.js.process.launcher.core;
 
 import java.util.Scanner;
 

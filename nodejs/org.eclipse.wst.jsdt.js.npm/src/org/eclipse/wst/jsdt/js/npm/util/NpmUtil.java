@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.wst.jsdt.js.node.util.PlatformUtil;
 import org.eclipse.wst.jsdt.js.node.util.WorkbenchResourceUtil;
 import org.eclipse.wst.jsdt.js.npm.PackageJson;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
@@ -92,27 +91,4 @@ public final class NpmUtil {
 		}
 		return workingDir;
 	}
-	
-	public static String getNpmExecutableName() {
-		String name = null;
-		switch(PlatformUtil.getOs()) {
-			case WINDOWS:
-				name = NpmConstants.NPM_CLI_JS;	
-				break;
-				
-			case MACOS:
-				name = NpmConstants.NPM;
-				break;
-				
-			case LINUX:
-				name = NpmConstants.NPM;
-				break;
-			
-			case OTHER:
-				name = NpmConstants.NPM;
-				break;
-		}
-		return name;
-	}
-
 }
