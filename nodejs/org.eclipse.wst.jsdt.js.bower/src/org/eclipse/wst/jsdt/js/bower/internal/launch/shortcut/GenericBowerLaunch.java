@@ -25,7 +25,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.bower.BowerPlugin;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
-import org.eclipse.wst.jsdt.js.bower.internal.core.BowerCLI;
+import org.eclipse.wst.jsdt.js.bower.internal.cli.BowerCLI;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
 import org.eclipse.wst.jsdt.js.node.launch.shortcut.GenericNativeNodeLaunch;
 

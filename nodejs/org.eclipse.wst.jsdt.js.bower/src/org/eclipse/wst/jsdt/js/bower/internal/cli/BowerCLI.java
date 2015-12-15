@@ -1,4 +1,4 @@
-package org.eclipse.wst.jsdt.js.bower.internal.core;
+package org.eclipse.wst.jsdt.js.bower.internal.cli;
 
 import org.eclipse.core.externaltools.internal.IExternalToolConstants;
 import org.eclipse.core.resources.IProject;
