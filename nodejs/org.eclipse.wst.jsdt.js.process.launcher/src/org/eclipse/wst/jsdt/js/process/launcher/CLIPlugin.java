@@ -19,15 +19,15 @@ import org.osgi.framework.BundleContext;
 /**
  * @author "Ilya Buziuk (ibuziuk)"
  */
-public class ProcessLauncher extends AbstractUIPlugin {
+public class CLIPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "org.jboss.tools.jst.js.process.launcher"; //$NON-NLS-1$
 
 	// The shared instance
-	private static ProcessLauncher plugin;
+	private static CLIPlugin plugin;
 
-	public ProcessLauncher() {
+	public CLIPlugin() {
 	}
 
 	public void start(BundleContext context) throws Exception {
@@ -40,7 +40,7 @@ public class ProcessLauncher extends AbstractUIPlugin {
 		super.stop(context);
 	}
 
-	public static ProcessLauncher getDefault() {
+	public static CLIPlugin getDefault() {
 		return plugin;
 	}
 	

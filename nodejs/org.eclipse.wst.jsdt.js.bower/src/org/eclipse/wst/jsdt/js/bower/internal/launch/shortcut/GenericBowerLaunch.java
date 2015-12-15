@@ -69,7 +69,7 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 	}
 
 	@Override
-	protected String getWorkingDirectory(IResource resource) throws CoreException {
+	protected String getWorkingDirectory(final IResource resource) throws CoreException {
 		String workingDir = null;
 		if (resource != null && resource.exists()) {
 			if (resource.getType() == IResource.FILE && BowerConstants.BOWER_JSON.equals(resource.getName())) {
@@ -93,8 +93,8 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 		return workingDir;
 	}
 	
-	private void launchBower(IResource resource) throws CoreException {
-		new BowerCLI(resource.getProject(), getWorkingDirectory(resource)).execute();
+	private void launchBower(final IResource resource) throws CoreException {
+		new BowerCLI(getCommandName(), getLaunchName(), resource.getProject(), getWorkingDirectory(resource)).execute();
 		
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
 //		String bowerLocation = BowerUtil.getBowerExecutableLocation();
@@ -114,7 +114,7 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 	 * @throws UnsupportedEncodingException
 	 * @see <a href="http://bower.io/docs/config/">Bower Configuration</a>
 	 */
-	private String getWorkingDirectory(IProject project) throws CoreException, UnsupportedEncodingException {
+	private String getWorkingDirectory(final IProject project) throws CoreException, UnsupportedEncodingException {
 		String workingDir = null;
 		IFile bowerrc = BowerUtil.getBowerrc(project);
 		if (bowerrc != null) {

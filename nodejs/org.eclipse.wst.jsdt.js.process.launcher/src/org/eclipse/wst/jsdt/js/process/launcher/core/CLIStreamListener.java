@@ -5,7 +5,7 @@ import java.util.Scanner;
 import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.model.IStreamMonitor;
 /**
- * Stream listener for Cordova CLI output. 
+ * Stream listener for CLI output. 
  * 
  * @author Gorkem Ercan
  *
@@ -21,7 +21,7 @@ public class CLIStreamListener implements IStreamListener {
 		boolean error = false;
 		while(scanner.hasNextLine()){
 			String line = scanner.nextLine();
-			line = line.trim();// remove leading whitespace
+			line = line.trim(); // remove leading whitespace
 			if(line.startsWith(ERROR_PREFIX)){
 				error = true;
 				errorMessage = errorMessage.append(line.substring(ERROR_PREFIX.length(), line.length()));

@@ -15,15 +15,19 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugPlugin;
+import org.eclipse.debug.core.IDebugEventSetListener;
+import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.Launch;
 import org.eclipse.debug.core.model.IProcess;
-import org.eclipse.wst.jsdt.js.process.launcher.ProcessLauncher;
+import org.eclipse.wst.jsdt.js.process.launcher.CLIPlugin;
 /**
  * Utilities for calling and processing the output from external executables.
  * 
@@ -53,7 +57,7 @@ public class ExternalProcessUtility {
 	public void execAsync (String [] command, File workingDirectory, 
 			IStreamListener outStreamListener,
 			IStreamListener errorStreamListener, String[] envp) throws CoreException{
-		ProcessLauncher.logInfo("Async Execute command line: " + Arrays.toString(command));
+		CLIPlugin.logInfo("Async Execute command line: " + Arrays.toString(command));
 		IProcess prcs = exec(command, workingDirectory, new NullProgressMonitor(), envp, null);
 		setTracing(command, outStreamListener, errorStreamListener, prcs);
 	}
@@ -91,7 +95,7 @@ public class ExternalProcessUtility {
 		if(monitor == null){
 			monitor = new NullProgressMonitor();
 		}
-		ProcessLauncher.logInfo("Sync Execute command line: " + Arrays.toString(command));
+		CLIPlugin.logInfo("Sync Execute command line: " + Arrays.toString(command));
 		IProcess prcs = exec(command, workingDirectory, monitor, envp, launchConfiguration);
 		if(prcs == null ){
 			return 0;
@@ -106,7 +110,7 @@ public class ExternalProcessUtility {
 				}
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				ProcessLauncher.logError(e, "Exception waiting for process to terminate");
+				CLIPlugin.logError(e, "Exception waiting for process to terminate");
 			}
 		}
 		return prcs.getExitValue();
@@ -148,6 +152,33 @@ public class ExternalProcessUtility {
 		DebugPlugin.getDefault().getLaunchManager().addLaunch(launch);
 		return prcs;
 	}
+	
+/*	IDebugEventSetListener processTerminateListener = new IDebugEventSetListener() {
+
+		@Override
+		public void handleDebugEvents(DebugEvent[] events) {
+			for (DebugEvent event : events) {
+				if (event.getKind() == DebugEvent.TERMINATE) {
+					Object source = event.getSource();
+					if (source instanceof IProcess) {
+						ILaunch launch = ((IProcess) source).getLaunch();
+						if (launch != null) {
+							ILaunchConfiguration lc = launch.getLaunchConfiguration();
+							if (lc != null /* && launchName.equals(lc.getName())  && project != null && project.exists()) {
+								try {
+									project.refreshLocal(IResource.DEPTH_INFINITE, null);
+								} catch (CoreException e) {
+									CLIPlugin.logError(e);
+								} finally {
+									DebugPlugin.getDefault().removeDebugEventListener(this);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}; */
 	
 	/**
 	 * Convenience method to specify command line as a String 

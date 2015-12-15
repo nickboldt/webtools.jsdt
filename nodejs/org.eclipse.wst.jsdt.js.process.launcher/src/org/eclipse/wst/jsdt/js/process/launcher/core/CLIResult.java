@@ -3,7 +3,7 @@ package org.eclipse.wst.jsdt.js.process.launcher.core;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.wst.jsdt.js.process.launcher.ProcessLauncher;
+import org.eclipse.wst.jsdt.js.process.launcher.CLIPlugin;
 
 /**
  * Generic execution result for Cordova CLI.
@@ -35,7 +35,7 @@ public class CLIResult {
 	
 	IStatus asStatus(){
 		if(hasError()){
-			return new HybridMobileStatus(IStatus.ERROR, ProcessLauncher.PLUGIN_ID, 500, getErrorMessage(), null);
+			return new HybridMobileStatus(IStatus.ERROR, CLIPlugin.PLUGIN_ID, 500, getErrorMessage(), null);
 		}
 		return Status.OK_STATUS;
 	}

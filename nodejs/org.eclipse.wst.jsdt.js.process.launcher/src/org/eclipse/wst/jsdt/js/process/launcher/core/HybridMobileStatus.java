@@ -3,7 +3,7 @@ package org.eclipse.wst.jsdt.js.process.launcher.core;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.wst.jsdt.js.process.launcher.ProcessLauncher;
+import org.eclipse.wst.jsdt.js.process.launcher.CLIPlugin;
 
 public class HybridMobileStatus extends Status {
 	
@@ -18,7 +18,7 @@ public class HybridMobileStatus extends Status {
 	}
 	
 	public static HybridMobileStatus newMissingEngineStatus(IProject project, String message){
-		HybridMobileStatus status =  new HybridMobileStatus(IStatus.ERROR, ProcessLauncher.PLUGIN_ID, STATUS_CODE_MISSING_ENGINE, message, null);
+		HybridMobileStatus status =  new HybridMobileStatus(IStatus.ERROR, CLIPlugin.PLUGIN_ID, STATUS_CODE_MISSING_ENGINE, message, null);
 		if(project != null){
 			status.setProject(project);
 		}
