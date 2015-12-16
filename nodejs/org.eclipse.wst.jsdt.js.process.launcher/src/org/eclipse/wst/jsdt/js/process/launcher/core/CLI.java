@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.externaltools.internal.IExternalToolConstants;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -20,6 +21,9 @@ import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.IDebugEventSetListener;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
+import org.eclipse.debug.core.ILaunchConfigurationType;
+import org.eclipse.debug.core.ILaunchConfigurationWorkingCopy;
+import org.eclipse.debug.core.ILaunchManager;
 import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
@@ -33,48 +37,108 @@ import org.eclipse.wst.jsdt.js.process.launcher.internal.util.ExternalProcessUti
  *@author Gorkem Ercan
  *
  */
+@SuppressWarnings("restriction")
 public class CLI {
 	
 	//Store locks for the projects.
 	private static Map<String, Lock> projectLock = Collections.synchronizedMap(new HashMap<String,Lock>());
-	protected String launchName;
-	protected IProject project;
-	protected String workingDir;
+	private IProject project;
+	private String workingDir;
 
 		
-	public CLI(String launchName, IProject project, String workingDir) {
+	public CLI( IProject project, String workingDir) {
 		if (project == null) {
 			throw new IllegalArgumentException("No project specified");
 		}
-		this.launchName = launchName;
 		this.project = project;
 		this.workingDir = workingDir;
 	}
 	
 //	public CLIResult build (final IProgressMonitor monitor, final String...options )throws CoreException{
-//		final CLIStreamListener streamListener = new CLIStreamListener();
-//		IProcess process = startShell(streamListener, monitor, getLaunchConfiguration("cordova build"));
-//		String cordovaCommand = generateCordovaCommand(null, null, options);
-//		sendCordovaCommand(process, cordovaCommand, monitor);
-//		CLIResult result = new CLIResult(streamListener.getErrorMessage(), streamListener.getMessage());
-//		throwExceptionIfError(result);
-//		return result;
-//	}
+//	final CLIStreamListener streamListener = new CLIStreamListener();
+//	IProcess process = startShell(streamListener, monitor, getLaunchConfiguration("cordova build"));
+//	String cordovaCommand = generateCordovaCommand(null, null, options);
+//	sendCordovaCommand(process, cordovaCommand, monitor);
+//	CLIResult result = new CLIResult(streamListener.getErrorMessage(), streamListener.getMessage());
+//	throwExceptionIfError(result);
+//	return result;
+//}
 	
-	protected void sendCLICommand(final IProcess process, final String cordovaCommand,
+
+	public CLIResult execute(CLICommand command) throws CoreException {
+		final CLIStreamListener streamListener = new CLIStreamListener();
+		IProcess process = startShell(streamListener, null, generateLaunchConfiguration(command));
+		sendCLICommand(process, command, null);
+		CLIResult result = new CLIResult(streamListener.getErrorMessage(), streamListener.getMessage());
+		throwExceptionIfError(result);
+		return result;
+	}
+	
+	private ILaunchConfiguration generateLaunchConfiguration(CLICommand command) {	
+		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+		ILaunchConfigurationType type = manager.getLaunchConfigurationType(IExternalToolConstants.ID_PROGRAM_LAUNCH_CONFIGURATION_TYPE);
+		try {
+			ILaunchConfiguration cfg = type.newInstance(null, command.getToolName());
+			ILaunchConfigurationWorkingCopy wc = cfg.getWorkingCopy();
+			wc.setAttribute(IProcess.ATTR_PROCESS_LABEL, command.getToolName() + command.getCommand());
+			return cfg;
+		} catch (CoreException e) {
+			CLIPlugin.logError(e);
+		}
+		return null;
+	}
+	
+//	private ILaunchConfiguration getLaunchConfiguration(String label){
+//	ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
+//	ILaunchConfigurationType type = manager.getLaunchConfigurationType(IExternalToolConstants.ID_PROGRAM_LAUNCH_CONFIGURATION_TYPE);
+//	try {
+//		ILaunchConfiguration cfg = type.newInstance(null, "cordova");
+//		ILaunchConfigurationWorkingCopy wc = cfg.getWorkingCopy();
+//		wc.setAttribute(IProcess.ATTR_PROCESS_LABEL, label);
+//		cfg = wc.doSave();
+//		return cfg;
+//	} catch (CoreException e) {
+//		e.printStackTrace();
+//	}
+//	return null;
+//}
+	
+	protected void sendCLICommand(final IProcess process, final CLICommand command,
 			final IProgressMonitor monitor) throws CoreException {
 		Lock lock = projectLock();
 		lock.lock();
 		try {
 			DebugPlugin.getDefault().addDebugEventListener(processTerminateListener);
 			final IStreamsProxy streamProxy = process.getStreamsProxy();
-			streamProxy.write(cordovaCommand.toString());
+			streamProxy.write(command.toString());
 		} catch (IOException e) {
 			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, "Fatal error invoking CLI", e));
 		} finally {
 			lock.unlock();
 		}
 	}
+	
+//	public String generateCommand(final String toolName, final String command, final String subCommand, final String... options) {
+//		StringBuilder builder = new StringBuilder();
+//		builder.append(toolName);
+//		builder.append(" ");
+//		builder.append(command);
+//		if (subCommand != null) {
+//			builder.append(" ");
+//			builder.append(subCommand);
+//		}
+//		if (options != null) {
+//			for (String string : options) {
+//				if (!string.isEmpty()) {
+//					builder.append(" ");
+//					builder.append(string);
+//				}
+//			}
+//		}
+//		builder.append("\n");
+//		builder.append("exit\n");
+//		return builder.toString();
+//	}
 	
 //	private String generateCordovaCommand(final String command, final Command subCommand, final String... options) {
 //		StringBuilder builder = new StringBuilder();
@@ -119,22 +183,6 @@ public class CLI {
 		return OS.toLowerCase().indexOf("win")>-1;
 	}
 	
-
-	
-//	private ILaunchConfiguration getLaunchConfiguration(String label){
-//		ILaunchManager manager = DebugPlugin.getDefault().getLaunchManager();
-//		ILaunchConfigurationType type = manager.getLaunchConfigurationType(IExternalToolConstants.ID_PROGRAM_LAUNCH_CONFIGURATION_TYPE);
-//		try {
-//			ILaunchConfiguration cfg = type.newInstance(null, "cordova");
-//			ILaunchConfigurationWorkingCopy wc = cfg.getWorkingCopy();
-//			wc.setAttribute(IProcess.ATTR_PROCESS_LABEL, label);
-//			cfg = wc.doSave();
-//			return cfg;
-//		} catch (CoreException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
 	
 	private Lock projectLock(){
 		final String projectName = project.getProject().getName();

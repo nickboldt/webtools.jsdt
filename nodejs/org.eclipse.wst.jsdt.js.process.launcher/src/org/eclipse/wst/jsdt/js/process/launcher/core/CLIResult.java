@@ -35,7 +35,7 @@ public class CLIResult {
 	
 	IStatus asStatus(){
 		if(hasError()){
-			return new HybridMobileStatus(IStatus.ERROR, CLIPlugin.PLUGIN_ID, 500, getErrorMessage(), null);
+			return new CLIStatus(IStatus.ERROR, CLIPlugin.PLUGIN_ID, 500, getErrorMessage(), null);
 		}
 		return Status.OK_STATUS;
 	}

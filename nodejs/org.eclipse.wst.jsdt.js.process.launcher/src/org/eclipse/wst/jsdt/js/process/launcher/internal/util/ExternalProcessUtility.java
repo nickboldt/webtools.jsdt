@@ -15,14 +15,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugPlugin;
-import org.eclipse.debug.core.IDebugEventSetListener;
-import org.eclipse.debug.core.ILaunch;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.Launch;
@@ -152,33 +148,6 @@ public class ExternalProcessUtility {
 		DebugPlugin.getDefault().getLaunchManager().addLaunch(launch);
 		return prcs;
 	}
-	
-/*	IDebugEventSetListener processTerminateListener = new IDebugEventSetListener() {
-
-		@Override
-		public void handleDebugEvents(DebugEvent[] events) {
-			for (DebugEvent event : events) {
-				if (event.getKind() == DebugEvent.TERMINATE) {
-					Object source = event.getSource();
-					if (source instanceof IProcess) {
-						ILaunch launch = ((IProcess) source).getLaunch();
-						if (launch != null) {
-							ILaunchConfiguration lc = launch.getLaunchConfiguration();
-							if (lc != null /* && launchName.equals(lc.getName())  && project != null && project.exists()) {
-								try {
-									project.refreshLocal(IResource.DEPTH_INFINITE, null);
-								} catch (CoreException e) {
-									CLIPlugin.logError(e);
-								} finally {
-									DebugPlugin.getDefault().removeDebugEventListener(this);
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}; */
 	
 	/**
 	 * Convenience method to specify command line as a String 

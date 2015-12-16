@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IEditorInput;
@@ -25,20 +26,20 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.bower.BowerPlugin;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
-import org.eclipse.wst.jsdt.js.bower.internal.cli.BowerCLI;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
-import org.eclipse.wst.jsdt.js.node.launch.shortcut.GenericNativeNodeLaunch;
+import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
+import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
  */
-public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
+public abstract class GenericBowerLaunch implements ILaunchShortcut {
 	
-	@Override
 	protected abstract String getCommandName();
 
-	@Override
 	protected abstract String getLaunchName();
+	
+	protected abstract CLICommand getCLICommand();
 	
 	@Override
 	public void launch(ISelection selection, String mode) {
@@ -68,7 +69,6 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 		}
 	}
 
-	@Override
 	protected String getWorkingDirectory(final IResource resource) throws CoreException {
 		String workingDir = null;
 		if (resource != null && resource.exists()) {
@@ -94,8 +94,7 @@ public abstract class GenericBowerLaunch extends GenericNativeNodeLaunch {
 	}
 	
 	private void launchBower(final IResource resource) throws CoreException {
-		new BowerCLI(getCommandName(), getLaunchName(), resource.getProject(), getWorkingDirectory(resource)).execute();
-		
+		new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand());
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
 //		String bowerLocation = BowerUtil.getBowerExecutableLocation();
 //		if (nodeLocation == null || nodeLocation.isEmpty()) {
