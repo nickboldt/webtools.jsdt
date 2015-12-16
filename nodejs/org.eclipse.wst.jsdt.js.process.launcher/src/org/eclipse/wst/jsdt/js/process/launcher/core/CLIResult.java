@@ -29,7 +29,7 @@ public class CLIResult {
 	}
 
 
-	boolean hasError() {
+	public boolean hasError() {
 		return errorMessage != null && !errorMessage.isEmpty();
 	}
 	

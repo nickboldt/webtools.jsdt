@@ -19,22 +19,21 @@ public class CLICommand {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append(getToolName());
-		builder.append(" ");
+		builder.append(" "); //$NON-NLS-1$
 		builder.append(getCommand());
 		if (getSubCommand() != null) {
-			builder.append(" ");
+			builder.append(" "); //$NON-NLS-1$
 			builder.append(getSubCommand());
 		}
 		if (getOptions() != null) {
 			for (String string : getOptions()) {
 				if (!string.isEmpty()) {
-					builder.append(" ");
+					builder.append(" "); //$NON-NLS-1$
 					builder.append(string);
 				}
 			}
 		}
 		builder.append("\n");
-		builder.append("exit\n");
 		return builder.toString();
 	}
 	

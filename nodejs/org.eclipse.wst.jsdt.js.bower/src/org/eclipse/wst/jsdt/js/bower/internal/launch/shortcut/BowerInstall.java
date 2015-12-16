@@ -19,7 +19,7 @@ import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
  */
 public class BowerInstall extends GenericBowerLaunch {
 	private static final String LAUNCH_NAME = "Bower Install"; //$NON-NLS-1$
-	private static final CLICommand COMMAND = new CLICommand(BowerConstants.BOWER, BowerCommands.INSTALL.getValue(),
+	private static final CLICommand COMMAND = new CLICommand("BowerConstants.BOWER", BowerCommands.INSTALL.getValue(),
 			null, null);
 	
 

@@ -18,9 +18,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.internal.ui.DebugUIPlugin;
 import org.eclipse.debug.ui.ILaunchShortcut;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
@@ -29,6 +34,7 @@ import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
 import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
 import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
+import org.eclipse.wst.jsdt.js.process.launcher.core.CLIResult;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -46,12 +52,8 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 		if (selection instanceof IStructuredSelection) {
 			 Object element = ((IStructuredSelection)selection).getFirstElement();
 			 if (element != null && element instanceof IResource) {
-				try {
-					IResource selectedResource = (IResource) element;
-					launchBower(selectedResource);
-				} catch (CoreException e) {
-					BowerPlugin.logError(e);
-				}
+				 IResource selectedResource = (IResource) element;
+				 launchBower(selectedResource);
 			 }
 		}
 	}
@@ -61,11 +63,7 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 		IEditorInput editorInput = editor.getEditorInput();
 		IFile file = ResourceUtil.getFile(editorInput);
 		if (file != null && file.exists() && BowerConstants.BOWER_JSON.equals(file.getName())) {
-			try {
-				launchBower(file);
-			} catch (CoreException e) {
-				BowerPlugin.logError(e);
-			}
+			launchBower(file);
 		}
 	}
 
@@ -93,8 +91,17 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 		return workingDir;
 	}
 	
-	private void launchBower(final IResource resource) throws CoreException {
-		new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand());
+	@SuppressWarnings("restriction")
+	private void launchBower(final IResource resource) {
+		try {
+			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand());
+		} catch (CoreException e) {
+			BowerPlugin.logError(e);
+			ErrorDialog.openError(DebugUIPlugin.getShell(), "Error Occurred", "Bower Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+//		if (result.hasError()) {
+//			ErrorDialog.openError(DebugUIPlugin.getShell(), getActionName(), null, );
+//		}
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
 //		String bowerLocation = BowerUtil.getBowerExecutableLocation();
 //		if (nodeLocation == null || nodeLocation.isEmpty()) {

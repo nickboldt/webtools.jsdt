@@ -48,7 +48,7 @@ public class CLI {
 		
 	public CLI( IProject project, String workingDir) {
 		if (project == null) {
-			throw new IllegalArgumentException("No project specified");
+			throw new IllegalArgumentException("No project specified"); //$NON-NLS-1$
 		}
 		this.project = project;
 		this.workingDir = workingDir;
@@ -111,8 +111,17 @@ public class CLI {
 			DebugPlugin.getDefault().addDebugEventListener(processTerminateListener);
 			final IStreamsProxy streamProxy = process.getStreamsProxy();
 			streamProxy.write(command.toString());
-		} catch (IOException e) {
-			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, "Fatal error invoking CLI", e));
+			while (!process.isTerminated()) {
+				//exit the shell after sending the command
+				streamProxy.write("exit\n"); //$NON-NLS-1$
+				if (monitor.isCanceled()) {
+					process.terminate();
+					break;
+				}
+				Thread.sleep(50);
+			}
+		} catch (IOException | InterruptedException e) {
+			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, "Fatal error invoking CLI", e)); //$NON-NLS-1$
 		} finally {
 			lock.unlock();
 		}
@@ -163,10 +172,10 @@ public class CLI {
 			final ILaunchConfiguration launchConfiguration) throws CoreException{
 		ArrayList<String> commandList = new ArrayList<String>();
 		if(isWindows()){
-			commandList.add("cmd");
+			commandList.add("cmd"); //$NON-NLS-1$
 		}else{
-			commandList.add("/bin/bash");
-			commandList.add("-l");
+			commandList.add("/bin/bash"); //$NON-NLS-1$
+			commandList.add("-l"); //$NON-NLS-1$
 		}
 		ExternalProcessUtility ep = new ExternalProcessUtility();
 		IProcess process = ep.exec(commandList.toArray(new String[commandList.size()]), new File(workingDir), 
@@ -179,8 +188,8 @@ public class CLI {
 	}
 	
 	private boolean isWindows(){
-		String OS = System.getProperty("os.name","unknown");
-		return OS.toLowerCase().indexOf("win")>-1;
+		String OS = System.getProperty("os.name","unknown");  //$NON-NLS-1$//$NON-NLS-2$
+		return OS.toLowerCase().indexOf("win")>-1; //$NON-NLS-1$
 	}
 	
 	
