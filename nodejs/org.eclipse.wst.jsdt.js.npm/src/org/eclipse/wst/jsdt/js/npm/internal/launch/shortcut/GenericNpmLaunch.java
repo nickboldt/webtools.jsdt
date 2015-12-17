@@ -14,25 +14,29 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.debug.ui.ILaunchShortcut;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
-import org.eclipse.wst.jsdt.js.node.launch.shortcut.GenericNativeNodeLaunch;
 import org.eclipse.wst.jsdt.js.npm.NpmPlugin;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
 import org.eclipse.wst.jsdt.js.npm.util.NpmUtil;
+import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
+import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
  */
-public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
+public abstract class GenericNpmLaunch implements ILaunchShortcut {
 	
-	@Override
+	protected abstract CLICommand getCLICommand();
+	
 	protected abstract String getCommandName();
 
-	@Override
 	protected abstract String getLaunchName();
 	
 	@Override
@@ -63,19 +67,18 @@ public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
 		}
 	}
 	
-	@Override
 	protected String getWorkingDirectory(IResource resource) throws CoreException {
 		String workingDir = null;
 		if (resource != null && resource.exists()) {
 			if (resource.getType() == IResource.FILE && NpmConstants.PACKAGE_JSON.equals(resource.getName())) {
-				workingDir = resource.getParent().getFullPath().toOSString();
+				workingDir = resource.getParent().getRawLocation().makeAbsolute().toOSString();
 			} else if (resource.getType() == IResource.FOLDER) {
-				workingDir = resource.getFullPath().toOSString();
+				workingDir = resource.getRawLocation().makeAbsolute().toOSString();
 			} else if (resource.getType() == IResource.PROJECT) {
 				IProject project = (IProject) resource;
 				IFile file = project.getFile(NpmConstants.PACKAGE_JSON);
 				if (file.exists()) {
-					workingDir = resource.getFullPath().toOSString();
+					workingDir = resource.getRawLocation().makeAbsolute().toOSString();
 				} else {
 					// Trying to find package.json file ignoring "node_modules" (default modules dir that can not be changed)
 					workingDir = NpmUtil.getNpmWorkingDir(project, NpmConstants.NODE_MODULES);
@@ -86,6 +89,13 @@ public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
 	}
 	
 	private void launchNpm(IResource resource) throws CoreException {
+		try {
+			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand(), null);
+		} catch (CoreException e) {
+			NpmPlugin.logError(e);
+			ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error Occurred", "npm Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		
 // launch (project / launch config)
 		
 //		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
@@ -99,5 +109,7 @@ public abstract class GenericNpmLaunch extends GenericNativeNodeLaunch {
 //			launchNodeTool(getWorkingDirectory(resource), nodeLocation, npmLocation);
 //		}
 	}
+
+
 
 }

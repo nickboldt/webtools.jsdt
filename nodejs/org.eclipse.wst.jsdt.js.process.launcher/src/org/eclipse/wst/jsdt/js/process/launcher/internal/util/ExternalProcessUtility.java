@@ -53,7 +53,7 @@ public class ExternalProcessUtility {
 	public void execAsync (String [] command, File workingDirectory, 
 			IStreamListener outStreamListener,
 			IStreamListener errorStreamListener, String[] envp) throws CoreException{
-		CLIPlugin.logInfo("Async Execute command line: " + Arrays.toString(command));
+		CLIPlugin.logInfo("Async Execute command line: " + Arrays.toString(command)); //$NON-NLS-1$
 		IProcess prcs = exec(command, workingDirectory, new NullProgressMonitor(), envp, null);
 		setTracing(command, outStreamListener, errorStreamListener, prcs);
 	}
@@ -91,7 +91,7 @@ public class ExternalProcessUtility {
 		if(monitor == null){
 			monitor = new NullProgressMonitor();
 		}
-		CLIPlugin.logInfo("Sync Execute command line: " + Arrays.toString(command));
+		CLIPlugin.logInfo("Sync Execute command line: " + Arrays.toString(command)); //$NON-NLS-1$
 		IProcess prcs = exec(command, workingDirectory, monitor, envp, launchConfiguration);
 		if(prcs == null ){
 			return 0;
@@ -106,7 +106,7 @@ public class ExternalProcessUtility {
 				}
 				Thread.sleep(50);
 			} catch (InterruptedException e) {
-				CLIPlugin.logError(e, "Exception waiting for process to terminate");
+				CLIPlugin.logError(e, "Exception waiting for process to terminate"); //$NON-NLS-1$
 			}
 		}
 		return prcs.getExitValue();
@@ -143,7 +143,7 @@ public class ExternalProcessUtility {
 		Process process = DebugPlugin.exec(command, workingDirectory, envp);
 		
 		Map<String, String> processAttributes = generateProcessAttributes(command, launchConfiguration);
-		Launch launch = new Launch(launchConfiguration, "run", null);
+		Launch launch = new Launch(launchConfiguration, "run", null); //$NON-NLS-1$
 		IProcess prcs = DebugPlugin.newProcess(launch, process, command[0], processAttributes);
 		DebugPlugin.getDefault().getLaunchManager().addLaunch(launch);
 		return prcs;
@@ -175,7 +175,7 @@ public class ExternalProcessUtility {
 	
 	private void checkWorkingDirectory(File workingDirectory) {
 		if(workingDirectory != null && !workingDirectory.isDirectory()){
-			throw new IllegalArgumentException(workingDirectory.toString()+ " is not a valid directory");
+			throw new IllegalArgumentException(workingDirectory.toString()+ " is not a valid directory"); //$NON-NLS-1$
 		}
 	}
 
@@ -200,13 +200,13 @@ public class ExternalProcessUtility {
 
 	private void checkCommandLine(String commandLine) {
 		if(commandLine == null || commandLine.isEmpty()){
-			throw new IllegalArgumentException("Missing command line");
+			throw new IllegalArgumentException("Missing command line"); //$NON-NLS-1$
 		}
 	}
 	
 	private void checkCommands(String[] command) {
 		if(command == null || command.length <1 ){
-			throw new IllegalArgumentException("Empty commands array");
+			throw new IllegalArgumentException("Empty commands array"); //$NON-NLS-1$
 		}
 	}
 	

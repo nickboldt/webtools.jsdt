@@ -26,7 +26,7 @@ public class CLIStreamListener implements IStreamListener {
 			if(line.startsWith(ERROR_PREFIX)){
 				error = true;
 				errorMessage = errorMessage.append(line.substring(ERROR_PREFIX.length(), line.length()));
-			} else if (line.contains(WIN_ERROR_PATTERN)) {
+			} else if (line.contains(WIN_ERROR_PATTERN) && !line.isEmpty()) {
 				error = true;
 				errorMessage = errorMessage.append(line);
 			} else {

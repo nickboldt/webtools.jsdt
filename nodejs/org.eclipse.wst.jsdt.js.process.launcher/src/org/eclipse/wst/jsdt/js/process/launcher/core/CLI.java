@@ -15,6 +15,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.debug.core.DebugEvent;
 import org.eclipse.debug.core.DebugPlugin;
@@ -50,6 +51,12 @@ public class CLI {
 		if (project == null) {
 			throw new IllegalArgumentException("No project specified"); //$NON-NLS-1$
 		}
+		
+		
+		if (workingDir == null) {
+			// use the project location as the working directory
+			this.workingDir = project.getRawLocation().makeAbsolute().toOSString();
+		}
 		this.project = project;
 		this.workingDir = workingDir;
 	}
@@ -65,10 +72,13 @@ public class CLI {
 //}
 	
 
-	public CLIResult execute(CLICommand command) throws CoreException {
+	public CLIResult execute(CLICommand command, IProgressMonitor monitor) throws CoreException {
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
 		final CLIStreamListener streamListener = new CLIStreamListener();
-		IProcess process = startShell(streamListener, null, generateLaunchConfiguration(command));
-		sendCLICommand(process, command, null);
+		IProcess process = startShell(streamListener, monitor, generateLaunchConfiguration(command));
+		sendCLICommand(process, command, monitor);
 		CLIResult result = new CLIResult(streamListener.getErrorMessage(), streamListener.getMessage());
 		throwExceptionIfError(result);
 		return result;
@@ -108,19 +118,20 @@ public class CLI {
 		Lock lock = projectLock();
 		lock.lock();
 		try {
+			
 			DebugPlugin.getDefault().addDebugEventListener(processTerminateListener);
 			final IStreamsProxy streamProxy = process.getStreamsProxy();
 			streamProxy.write(command.toString());
-			while (!process.isTerminated()) {
-				//exit the shell after sending the command
-				streamProxy.write("exit\n"); //$NON-NLS-1$
-				if (monitor.isCanceled()) {
-					process.terminate();
-					break;
-				}
-				Thread.sleep(50);
-			}
-		} catch (IOException | InterruptedException e) {
+//			while (!process.isTerminated()) {
+//				//exit the shell after sending the command
+//				streamProxy.write("exit\n"); //$NON-NLS-1$
+//				if (monitor.isCanceled()) {
+//					process.terminate();
+//					break;
+//				}
+//				Thread.sleep(100);
+//			}
+		} catch (IOException /*| InterruptedException*/ e) {
 			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, "Fatal error invoking CLI", e)); //$NON-NLS-1$
 		} finally {
 			lock.unlock();

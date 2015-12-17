@@ -33,7 +33,7 @@ public class CLICommand {
 				}
 			}
 		}
-		builder.append("\n");
+		builder.append("\n"); //$NON-NLS-1$
 		return builder.toString();
 	}
 	

@@ -18,14 +18,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.debug.internal.ui.DebugUIPlugin;
 import org.eclipse.debug.ui.ILaunchShortcut;
 import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
@@ -34,7 +31,6 @@ import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
 import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
 import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLIResult;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"
@@ -91,13 +87,12 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 		return workingDir;
 	}
 	
-	@SuppressWarnings("restriction")
 	private void launchBower(final IResource resource) {
 		try {
-			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand());
+			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand(), null);
 		} catch (CoreException e) {
 			BowerPlugin.logError(e);
-			ErrorDialog.openError(DebugUIPlugin.getShell(), "Error Occurred", "Bower Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+			ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error Occurred", "Bower Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 //		if (result.hasError()) {
 //			ErrorDialog.openError(DebugUIPlugin.getShell(), getActionName(), null, );
