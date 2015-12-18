@@ -19,7 +19,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.wst.jsdt.js.node.util.WorkbenchResourceUtil;
+import org.eclipse.wst.jsdt.js.common.util.WorkbenchResourceUtil;
 import org.eclipse.wst.jsdt.js.npm.PackageJson;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
 

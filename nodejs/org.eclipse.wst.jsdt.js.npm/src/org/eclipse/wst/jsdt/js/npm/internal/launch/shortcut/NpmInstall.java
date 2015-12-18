@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.wst.jsdt.js.npm.internal.launch.shortcut;
 
+import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 import org.eclipse.wst.jsdt.js.npm.NpmCommands;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"

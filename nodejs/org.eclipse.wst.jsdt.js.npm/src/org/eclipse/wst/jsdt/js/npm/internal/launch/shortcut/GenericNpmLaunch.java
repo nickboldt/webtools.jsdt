@@ -22,11 +22,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
+import org.eclipse.wst.jsdt.js.cli.core.CLI;
+import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 import org.eclipse.wst.jsdt.js.npm.NpmPlugin;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
 import org.eclipse.wst.jsdt.js.npm.util.NpmUtil;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"

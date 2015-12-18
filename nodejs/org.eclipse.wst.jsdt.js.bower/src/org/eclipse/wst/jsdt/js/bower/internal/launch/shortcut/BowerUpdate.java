@@ -12,7 +12,7 @@ package org.eclipse.wst.jsdt.js.bower.internal.launch.shortcut;
 
 import org.eclipse.wst.jsdt.js.bower.BowerCommands;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
+import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"

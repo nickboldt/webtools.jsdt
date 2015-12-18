@@ -29,8 +29,8 @@ import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.bower.BowerPlugin;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLI;
-import org.eclipse.wst.jsdt.js.process.launcher.core.CLICommand;
+import org.eclipse.wst.jsdt.js.cli.core.CLI;
+import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 
 /**
  * @author "Ilya Buziuk (ibuziuk)"

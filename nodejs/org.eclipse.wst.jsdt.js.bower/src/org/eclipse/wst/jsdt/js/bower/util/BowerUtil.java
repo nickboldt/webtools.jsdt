@@ -25,7 +25,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.wst.jsdt.js.bower.BowerJson;
 import org.eclipse.wst.jsdt.js.bower.Bowerrc;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
-import org.eclipse.wst.jsdt.js.node.util.WorkbenchResourceUtil;
+import org.eclipse.wst.jsdt.js.common.util.WorkbenchResourceUtil;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
