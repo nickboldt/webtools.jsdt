@@ -1,9 +1,20 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Red Hat, Inc. 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 	Contributors:
+ * 		 Red Hat Inc. - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.wst.jsdt.js.cli.core;
 
 import java.util.Scanner;
 
 import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.model.IStreamMonitor;
+
 /**
  * Stream listener for CLI output. 
  * 
@@ -26,7 +37,7 @@ public class CLIStreamListener implements IStreamListener {
 			if(line.startsWith(ERROR_PREFIX)){
 				error = true;
 				errorMessage = errorMessage.append(line.substring(ERROR_PREFIX.length(), line.length()));
-			} else if (line.contains(WIN_ERROR_PATTERN) && !line.isEmpty()) {
+			} else if (line.contains(WIN_ERROR_PATTERN)) {
 				error = true;
 				errorMessage = errorMessage.append(line);
 			} else {

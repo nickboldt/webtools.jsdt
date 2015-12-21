@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Red Hat, Inc. 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 	Contributors:
+ * 		 Red Hat Inc. - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.wst.jsdt.js.cli.core;
 
 import java.io.File;
@@ -29,6 +39,7 @@ import org.eclipse.debug.core.IStreamListener;
 import org.eclipse.debug.core.model.IProcess;
 import org.eclipse.debug.core.model.IStreamsProxy;
 import org.eclipse.wst.jsdt.js.cli.CLIPlugin;
+import org.eclipse.wst.jsdt.js.cli.Messages;
 import org.eclipse.wst.jsdt.js.cli.internal.util.ExternalProcessUtility;
 
 /**
@@ -36,6 +47,7 @@ import org.eclipse.wst.jsdt.js.cli.internal.util.ExternalProcessUtility;
  * access to CLI.
  *
  *@author Gorkem Ercan
+ *@author "Ilya Buziuk (ibuziuk)"
  *
  */
 @SuppressWarnings("restriction")
@@ -49,9 +61,8 @@ public class CLI {
 		
 	public CLI( IProject project, String workingDir) {
 		if (project == null) {
-			throw new IllegalArgumentException("No project specified"); //$NON-NLS-1$
+			throw new IllegalArgumentException(Messages.Error_NoProjectSpecified);
 		}
-		
 		
 		if (workingDir == null) {
 			// use the project location as the working directory
@@ -132,33 +143,11 @@ public class CLI {
 				Thread.sleep(100);
 			}
 		} catch (IOException | InterruptedException e) {
-			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, "Fatal error invoking CLI", e)); //$NON-NLS-1$
+			throw new CoreException(new Status(IStatus.ERROR, CLIPlugin.PLUGIN_ID, Messages.Error_FatalInvokingCLI, e));
 		} finally {
 			lock.unlock();
 		}
 	}
-	
-//	public String generateCommand(final String toolName, final String command, final String subCommand, final String... options) {
-//		StringBuilder builder = new StringBuilder();
-//		builder.append(toolName);
-//		builder.append(" ");
-//		builder.append(command);
-//		if (subCommand != null) {
-//			builder.append(" ");
-//			builder.append(subCommand);
-//		}
-//		if (options != null) {
-//			for (String string : options) {
-//				if (!string.isEmpty()) {
-//					builder.append(" ");
-//					builder.append(string);
-//				}
-//			}
-//		}
-//		builder.append("\n");
-//		builder.append("exit\n");
-//		return builder.toString();
-//	}
 	
 //	private String generateCordovaCommand(final String command, final Command subCommand, final String... options) {
 //		StringBuilder builder = new StringBuilder();

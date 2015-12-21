@@ -1,5 +1,18 @@
+/*******************************************************************************
+ * Copyright (c) 2015 Red Hat, Inc. 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * 	Contributors:
+ * 		 Red Hat Inc. - initial API and implementation and/or initial documentation
+ *******************************************************************************/
 package org.eclipse.wst.jsdt.js.cli.core;
 
+/**
+ * @author "Ilya Buziuk (ibuziuk)"
+ */
 public class CLICommand {
 	
 	private String toolName;
@@ -14,7 +27,6 @@ public class CLICommand {
 		this.options = options;
 	}
 		
-	// TODO: need to improve command generation
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -25,11 +37,11 @@ public class CLICommand {
 			builder.append(" "); //$NON-NLS-1$
 			builder.append(getSubCommand());
 		}
-		if (getOptions() != null) {
-			for (String string : getOptions()) {
-				if (!string.isEmpty()) {
+		if (options != null) {
+			for (String option : getOptions()) {
+				if (option != null && !option.isEmpty()) {
 					builder.append(" "); //$NON-NLS-1$
-					builder.append(string);
+					builder.append(option);
 				}
 			}
 		}
@@ -37,10 +49,6 @@ public class CLICommand {
 		return builder.toString();
 	}
 	
-//	public String generate() {
-//
-//	}
-
 	public String getToolName() {
 		return toolName;
 	}
@@ -48,7 +56,6 @@ public class CLICommand {
 	public String getCommand() {
 		return command;
 	}
-
 
 	public String getSubCommand() {
 		return subCommand;

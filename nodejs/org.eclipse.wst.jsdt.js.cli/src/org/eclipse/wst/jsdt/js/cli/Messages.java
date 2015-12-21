@@ -20,15 +20,8 @@ public class Messages extends NLS {
 	
 	public static String PreferenceDescription_JavaScriptTools;
 
-	public static String NodePreferencePage_NotSpecifiedNodeWarning;
-	public static String NodePreferencePage_NotValidNodeError;
-	public static String NodePreferencePage_NodeLocationLabel;
-	
-	public static String ErrorHandler_LaunchErrorTitle;
-	public static String ErrorHandler_LaunchErrorMessage;
-	public static String ErrorHandler_NodeNotDefinedTitle;
-	public static String ErrorHandler_NodeNotDefinedMessage;
-
+	public static String Error_NoProjectSpecified;
+	public static String Error_FatalInvokingCLI;
 	
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

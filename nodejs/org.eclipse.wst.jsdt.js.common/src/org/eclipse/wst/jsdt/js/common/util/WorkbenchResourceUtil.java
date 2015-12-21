@@ -66,7 +66,7 @@ public final class WorkbenchResourceUtil {
 	}
 	
 	public static void updateFile(IFile file, String content) throws CoreException {
-		if (file.exists()) {
+		if (file != null && file.exists()) {
 			InputStream source = new ByteArrayInputStream(content.getBytes());
 			file.setContents(source, true, true, new NullProgressMonitor());
 		}

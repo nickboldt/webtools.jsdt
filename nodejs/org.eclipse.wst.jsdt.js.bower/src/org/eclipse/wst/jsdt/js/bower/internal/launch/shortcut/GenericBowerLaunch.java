@@ -28,6 +28,7 @@ import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.bower.BowerPlugin;
 import org.eclipse.wst.jsdt.js.bower.internal.BowerConstants;
+import org.eclipse.wst.jsdt.js.bower.internal.Messages;
 import org.eclipse.wst.jsdt.js.bower.util.BowerUtil;
 import org.eclipse.wst.jsdt.js.cli.core.CLI;
 import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
@@ -92,21 +93,9 @@ public abstract class GenericBowerLaunch implements ILaunchShortcut {
 			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand(), null);
 		} catch (CoreException e) {
 			BowerPlugin.logError(e);
-			ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error Occurred", "Bower Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
+			ErrorDialog.openError(Display.getDefault().getActiveShell(), Messages.BowerLaunchError_Title,
+					Messages.BowerLaunchError_Message, e.getStatus());
 		}
-//		if (result.hasError()) {
-//			ErrorDialog.openError(DebugUIPlugin.getShell(), getActionName(), null, );
-//		}
-//		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
-//		String bowerLocation = BowerUtil.getBowerExecutableLocation();
-//		if (nodeLocation == null || nodeLocation.isEmpty()) {
-//			NodeExceptionNotifier.nodeLocationNotDefined();
-//		} else if (bowerLocation == null || bowerLocation.isEmpty()) {
-//			BowerExceptionNotifier.bowerLocationNotDefined();
-//		} else {
-//			this.setWorkingProject(resource.getProject());
-//			launchNodeTool(getWorkingDirectory(resource), nodeLocation, bowerLocation);
-//		}
 	}
 
 	/**

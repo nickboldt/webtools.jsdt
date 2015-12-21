@@ -25,6 +25,7 @@ import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.wst.jsdt.js.cli.core.CLI;
 import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 import org.eclipse.wst.jsdt.js.npm.NpmPlugin;
+import org.eclipse.wst.jsdt.js.npm.internal.Messages;
 import org.eclipse.wst.jsdt.js.npm.internal.NpmConstants;
 import org.eclipse.wst.jsdt.js.npm.util.NpmUtil;
 
@@ -67,6 +68,16 @@ public abstract class GenericNpmLaunch implements ILaunchShortcut {
 		}
 	}
 	
+	private void launchNpm(IResource resource) throws CoreException {
+		try {
+			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand(), null);
+		} catch (CoreException e) {
+			NpmPlugin.logError(e);
+			ErrorDialog.openError(Display.getDefault().getActiveShell(), Messages.NpmLaunchError_Title,
+					Messages.NpmLaunchError_Title, e.getStatus());
+		}
+	}
+	
 	protected String getWorkingDirectory(IResource resource) throws CoreException {
 		String workingDir = null;
 		if (resource != null && resource.exists()) {
@@ -87,29 +98,5 @@ public abstract class GenericNpmLaunch implements ILaunchShortcut {
 		}
 		return workingDir;
 	}
-	
-	private void launchNpm(IResource resource) throws CoreException {
-		try {
-			 new CLI(resource.getProject(), getWorkingDirectory(resource)).execute(getCLICommand(), null);
-		} catch (CoreException e) {
-			NpmPlugin.logError(e);
-			ErrorDialog.openError(Display.getDefault().getActiveShell(), "Error Occurred", "npm Launch Error", e.getStatus()); //$NON-NLS-1$ //$NON-NLS-2$
-		}
-		
-// launch (project / launch config)
-		
-//		String nodeLocation = NodeExternalUtil.getNodeExecutableLocation();
-//		String npmLocation = NpmUtil.getNpmExecutableLocation();
-//		if (nodeLocation == null || nodeLocation.isEmpty()) {
-//			NodeExceptionNotifier.nodeLocationNotDefined();
-//		} else if (npmLocation == null || npmLocation.isEmpty()) {
-//			NpmExceptionNotifier.npmLocationNotDefined();
-//		} else {
-//			this.setWorkingProject(resource.getProject());
-//			launchNodeTool(getWorkingDirectory(resource), nodeLocation, npmLocation);
-//		}
-	}
-
-
 
 }
