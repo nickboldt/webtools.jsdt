@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension
+			point="org.eclipse.ui.navigator.viewer">
+		<viewerContentBinding viewerId="org.eclipse.ui.navigator.ProjectExplorer">
+			<includes>
+				<contentExtension pattern="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContent" />
+			</includes>
+		</viewerContentBinding>
+	</extension>
+	
+	  <extension
+         point="org.eclipse.ui.navigator.navigatorContent">
+      <navigatorContent 
+            id="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContent" 
+            name="Properties File Contents"
+            contentProvider="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContentProvider"
+            labelProvider="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntLabelProvider" 
+            activeByDefault="true"
+            icon="icons/prop_ps.gif"
+            priority="normal" >
+         <triggerPoints>
+         	<or>
+	            <and>
+	               <instanceof value="org.eclipse.core.resources.IResource"/>
+	               <test
+	                     forcePluginActivation="true"
+	                     property="org.eclipse.core.resources.extension"
+	                     value="js"/>
+	            </and>
+				<instanceof value="org.eclipse.ui.examples.navigator.PropertiesTreeData"/>
+			</or>
+         </triggerPoints>
+         <possibleChildren>
+            <or>
+               <instanceof value="org.eclipse.ui.examples.navigator.PropertiesTreeData"/> 
+            </or>
+         </possibleChildren>
+      </navigatorContent>
+   </extension>
+</plugin>
