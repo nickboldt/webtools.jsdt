@@ -14,29 +14,21 @@
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent 
             id="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContent" 
-            name="Properties File Contents"
+            name="Grunt Task Content Provider"
             contentProvider="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContentProvider"
             labelProvider="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntLabelProvider" 
             activeByDefault="true"
-            icon="icons/prop_ps.gif"
+            icon=""
             priority="normal" >
          <triggerPoints>
-         	<or>
 	            <and>
 	               <instanceof value="org.eclipse.core.resources.IResource"/>
 	               <test
 	                     forcePluginActivation="true"
-	                     property="org.eclipse.core.resources.extension"
-	                     value="js"/>
+	                     property="org.eclipse.core.resources.name"
+	                     value="gruntfile.js"/>
 	            </and>
-				<instanceof value="org.eclipse.ui.examples.navigator.PropertiesTreeData"/>
-			</or>
          </triggerPoints>
-         <possibleChildren>
-            <or>
-               <instanceof value="org.eclipse.ui.examples.navigator.PropertiesTreeData"/> 
-            </or>
-         </possibleChildren>
       </navigatorContent>
    </extension>
 </plugin>

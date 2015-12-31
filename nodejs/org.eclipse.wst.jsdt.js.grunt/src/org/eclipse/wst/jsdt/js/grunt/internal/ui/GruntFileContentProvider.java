@@ -51,6 +51,9 @@ public class GruntFileContentProvider
 	 */
 	@Override
 	public Object[] getChildren(Object parentNode) {
+		if (parentNode instanceof IResource) {
+			return new String[]{"Hello"};
+		}
 		// IJSBuildFileNode buildFileNode = null;
 		// if (parentNode instanceof IResource) {
 		// buildFileNode = JSBuildFileFactoryManager
@@ -59,7 +62,7 @@ public class GruntFileContentProvider
 		// buildFileNode = (IJSBuildFileNode) parentNode;
 		// }
 		// return JSBuildFileUtil.getTasks(buildFileNode).toArray();
-		return new String[]{"Hello"};
+		return new String[]{};
 	}
 
 	/*
