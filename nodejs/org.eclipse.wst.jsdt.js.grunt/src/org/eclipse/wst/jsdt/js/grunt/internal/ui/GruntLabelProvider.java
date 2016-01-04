@@ -80,7 +80,7 @@ IStyledLabelProvider, IColorProvider{
 
 	@Override
 	public StyledString getStyledText(Object arg0) {
-		return new StyledString("Hello!");
+		return new StyledString("Some Grunt Task");
 	}
 
 }

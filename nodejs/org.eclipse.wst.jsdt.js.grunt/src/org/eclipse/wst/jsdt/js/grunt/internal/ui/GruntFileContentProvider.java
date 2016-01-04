@@ -16,6 +16,7 @@ import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IPipelinedTreeContentProvider;
 import org.eclipse.ui.navigator.PipelinedShapeModification;
 import org.eclipse.ui.navigator.PipelinedViewerUpdate;
+import org.eclipse.wst.jsdt.core.dom.JavaScriptUnit;
 
 public class GruntFileContentProvider
 		implements ITreeContentProvider, IPipelinedTreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
@@ -52,8 +53,17 @@ public class GruntFileContentProvider
 	@Override
 	public Object[] getChildren(Object parentNode) {
 		if (parentNode instanceof IResource) {
-			return new String[]{"Hello"};
+			return new String[]{"Some Grunt Task"};
 		}
+		
+		JavaScriptUnit unit = null; 
+/*		if (parentNode instanceof IResource) {
+			return new String[]{"Hello"};
+		} else */if (parentNode instanceof JavaScriptUnit) {
+			unit = (JavaScriptUnit) parentNode;
+			return unit.getMessages();
+		}
+		
 		// IJSBuildFileNode buildFileNode = null;
 		// if (parentNode instanceof IResource) {
 		// buildFileNode = JSBuildFileFactoryManager

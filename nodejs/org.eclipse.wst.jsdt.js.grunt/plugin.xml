@@ -10,7 +10,7 @@
 		</viewerContentBinding>
 	</extension>
 	
-	  <extension
+   <extension
          point="org.eclipse.ui.navigator.navigatorContent">
       <navigatorContent 
             id="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileContent" 
@@ -31,4 +31,40 @@
          </triggerPoints>
       </navigatorContent>
    </extension>
+   
+   <extension point="org.eclipse.core.runtime.adapters">
+		<factory 
+            class="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileAdapterFactory" 
+            adaptableType="java.lang.String">
+            <adapter
+               type="org.eclipse.debug.ui.actions.ILaunchable">
+         	</adapter>
+		</factory>
+	</extension>
+	
+	<extension
+         point="org.eclipse.debug.ui.launchShortcuts">
+     	 <shortcut
+            category="org.eclipse.ui.externaltools"
+            class="org.eclipse.wst.jsdt.js.grunt.internal.launch.GruntLaunchShortcut"
+            description="Grunt Task"
+            helpContextId="org.eclipse.ui.externaltools.launchShortcutHelpContext.gruntShortcut"
+            icon="icons/full/obj16/gruntfile.png"
+            id="org.eclipse.wst.jsdt.js.grunt.internal.launch.GruntLaunchShortcut"
+            label="Grunt Task"
+            modes="run">
+        <contextualLaunch>
+           <enablement>
+             <with variable="selection">
+               <count value="1"/>
+             </with>
+           </enablement>
+           <contextLabel
+         	  mode="run"
+         	  label="Grunt Task"/>
+  		 </contextualLaunch>
+    	</shortcut>
+    </extension>
+    
 </plugin>
+
