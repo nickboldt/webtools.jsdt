@@ -1,8 +1,11 @@
 package org.eclipse.wst.jsdt.js.grunt.internal.ui;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.internal.localstore.Bucket.Visitor;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
@@ -16,7 +19,13 @@ import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IPipelinedTreeContentProvider;
 import org.eclipse.ui.navigator.PipelinedShapeModification;
 import org.eclipse.ui.navigator.PipelinedViewerUpdate;
+import org.eclipse.wst.jsdt.core.IJavaScriptUnit;
+import org.eclipse.wst.jsdt.core.JavaScriptModelException;
+import org.eclipse.wst.jsdt.core.dom.ASTNode;
 import org.eclipse.wst.jsdt.core.dom.JavaScriptUnit;
+import org.eclipse.wst.jsdt.core.dom.Statement;
+import org.eclipse.wst.jsdt.js.grunt.internal.util.ASTUtil;
+import org.eclipse.wst.jsdt.js.grunt.internal.util.GruntVisitor;
 
 public class GruntFileContentProvider
 		implements ITreeContentProvider, IPipelinedTreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
@@ -52,8 +61,21 @@ public class GruntFileContentProvider
 	 */
 	@Override
 	public Object[] getChildren(Object parentNode) {
+		Object[] children = null;
 		if (parentNode instanceof IResource) {
-			return new String[]{"Some Grunt Task"};
+			if (parentNode instanceof IFile) {
+				try {
+					JavaScriptUnit unit = ASTUtil.getJavaScriptUnit((IFile)parentNode);
+					GruntVisitor visitor = new GruntVisitor();
+					unit.accept(visitor);
+					children = visitor.getTasks().toArray();
+				} catch (JavaScriptModelException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			return children;
+//			return new String[]{"Some Grunt Task"};
 		}
 		
 		JavaScriptUnit unit = null; 
@@ -96,6 +118,9 @@ public class GruntFileContentProvider
 	 */
 	@Override
 	public boolean hasChildren(Object element) {
+		if (element instanceof String) {
+			return false;
+		}
 		// if (element instanceof IJSBuildFileNode) {
 		// return ((IJSBuildFileNode) element).hasChildren();
 		// }
@@ -128,8 +153,7 @@ public class GruntFileContentProvider
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent arg0) {
-		// TODO Auto-generated method stub
-
+		System.out.println("Changed");
 	}
 
 	@Override

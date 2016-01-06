@@ -19,14 +19,14 @@
             labelProvider="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntLabelProvider" 
             activeByDefault="true"
             icon=""
-            priority="normal" >
+            priority="high" >
          <triggerPoints>
 	            <and>
 	               <instanceof value="org.eclipse.core.resources.IResource"/>
 	               <test
 	                     forcePluginActivation="true"
 	                     property="org.eclipse.core.resources.name"
-	                     value="gruntfile.js"/>
+	                     value="*.js"/>
 	            </and>
          </triggerPoints>
       </navigatorContent>
@@ -46,7 +46,7 @@
          point="org.eclipse.debug.ui.launchShortcuts">
      	 <shortcut
             category="org.eclipse.ui.externaltools"
-            class="org.eclipse.wst.jsdt.js.grunt.internal.launch.GruntLaunchShortcut"
+            class="org.eclipse.wst.jsdt.js.grunt.internal.launch.GenericGruntLaunch"
             description="Grunt Task"
             helpContextId="org.eclipse.ui.externaltools.launchShortcutHelpContext.gruntShortcut"
             icon="icons/full/obj16/gruntfile.png"

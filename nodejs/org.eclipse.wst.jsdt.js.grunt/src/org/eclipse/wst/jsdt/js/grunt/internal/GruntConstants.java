@@ -18,6 +18,7 @@ public final class GruntConstants {
 	private GruntConstants() {
 	}
 
+	public static final String GRUNT = "grunt"; //$NON-NLS-1$
 	public static final String GRUNT_FILE_JS = "Gruntfile.js"; //$NON-NLS-1$
 
 }

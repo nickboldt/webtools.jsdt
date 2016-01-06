@@ -79,8 +79,8 @@ IStyledLabelProvider, IColorProvider{
 	}
 
 	@Override
-	public StyledString getStyledText(Object arg0) {
-		return new StyledString("Some Grunt Task");
+	public StyledString getStyledText(Object object) {
+		return new StyledString(object.toString());
 	}
 
 }
