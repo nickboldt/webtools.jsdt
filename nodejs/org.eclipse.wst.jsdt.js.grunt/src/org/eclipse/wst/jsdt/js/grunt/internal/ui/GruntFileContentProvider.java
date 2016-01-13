@@ -1,5 +1,7 @@
 package org.eclipse.wst.jsdt.js.grunt.internal.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -11,6 +13,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.wst.jsdt.core.JavaScriptModelException;
 import org.eclipse.wst.jsdt.core.dom.JavaScriptUnit;
+import org.eclipse.wst.jsdt.js.grunt.internal.GruntTask;
+import org.eclipse.wst.jsdt.js.grunt.internal.Task;
 import org.eclipse.wst.jsdt.js.grunt.internal.util.ASTUtil;
 import org.eclipse.wst.jsdt.js.grunt.internal.util.GruntVisitor;
 
@@ -65,6 +69,7 @@ public class GruntFileContentProvider implements ITreeContentProvider, IResource
 	@Override
 	public Object[] getChildren(Object parentNode) {
 		Object[] children = null;
+		ArrayList<Task> tasks = new ArrayList<>();
 		if (parentNode instanceof IResource) {
 			if (parentNode instanceof IFile) {
 				try {
@@ -72,12 +77,16 @@ public class GruntFileContentProvider implements ITreeContentProvider, IResource
 					GruntVisitor visitor = new GruntVisitor();
 					unit.accept(visitor);
 					children = visitor.getTasks().toArray();
+					for (Object o : children) {
+						
+						tasks.add(new GruntTask(o.toString(), (IFile) parentNode, false));
+					}
 				} catch (JavaScriptModelException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
-			return children;
+			return tasks.toArray();
 //			return new String[]{"Some Grunt Task"};
 		}
 		

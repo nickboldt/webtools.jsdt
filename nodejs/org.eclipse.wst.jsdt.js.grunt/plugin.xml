@@ -35,7 +35,7 @@
    <extension point="org.eclipse.core.runtime.adapters">
 		<factory 
             class="org.eclipse.wst.jsdt.js.grunt.internal.ui.GruntFileAdapterFactory" 
-            adaptableType="java.lang.String">
+            adaptableType="org.eclipse.wst.jsdt.js.grunt.internal.GruntTask">
             <adapter
                type="org.eclipse.debug.ui.actions.ILaunchable">
          	</adapter>

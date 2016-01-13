@@ -1,5 +1,6 @@
 package org.eclipse.wst.jsdt.js.grunt.internal.launch;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.ui.ILaunchShortcut;
@@ -14,6 +15,7 @@ import org.eclipse.wst.jsdt.js.cli.core.CLICommand;
 import org.eclipse.wst.jsdt.js.grunt.GruntPlugin;
 import org.eclipse.wst.jsdt.js.grunt.internal.GruntConstants;
 import org.eclipse.wst.jsdt.js.grunt.internal.Messages;
+import org.eclipse.wst.jsdt.js.grunt.internal.Task;
 
 public class GenericGruntLaunch implements ILaunchShortcut{
 
@@ -22,9 +24,9 @@ public class GenericGruntLaunch implements ILaunchShortcut{
 		if (selection instanceof IStructuredSelection) {
 			 Object element = ((IStructuredSelection)selection).getFirstElement();
 			 element.toString();
-			 if (element != null && element instanceof IResource) {
-				 IResource selectedResource = (IResource) element;
-				 launchGrunt(selectedResource, generateCLICommand(element.toString()));
+			 if (element != null && element instanceof Task) {
+				 Task selectedResource = (Task) element;
+				 launchGrunt(selectedResource.getBuildFile(), generateCLICommand(selectedResource.getName()));
 			 }
 		}
 	}
@@ -34,7 +36,7 @@ public class GenericGruntLaunch implements ILaunchShortcut{
 		
 	}
 	
-	private void launchGrunt(IResource resource, CLICommand command) {
+	private void launchGrunt(IFile resource, CLICommand command) {
 		try {
 			 new CLI(resource.getProject(), resource.getParent().getLocation()).execute(command, null);
 		} catch (CoreException e) {
@@ -45,7 +47,7 @@ public class GenericGruntLaunch implements ILaunchShortcut{
 	}
 	
 	private CLICommand generateCLICommand(String commandName) {
-		return new CLICommand(GruntConstants.GRUNT, commandName, null, null);
+		return new CLICommand(/*GruntConstants.GRUNT*/ "gulp", commandName, null, null);
 	}
 
 }
