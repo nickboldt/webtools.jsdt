@@ -9,12 +9,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-
-
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.wst.jsdt.js.grunt.GruntPlugin;
 import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 
-public class GruntLabelProvider extends LabelProvider implements
-IStyledLabelProvider, IColorProvider{
+public class GruntLabelProvider extends LabelProvider implements IStyledLabelProvider, IColorProvider{
 	
 //	@Override
 //	public StyledString getStyledText(Object element) {
@@ -51,22 +50,8 @@ IStyledLabelProvider, IColorProvider{
 
 	@Override
 	public Image getImage(Object element) {
-//		if (element instanceof IJSBuildFileNode) {
-//			String factoryId = ((IJSBuildFileNode) element).getFactoryId();
-//			ILabelProvider labelProvider = LabelProviderRegistryReader
-//					.getInstance().getLabelProvider(factoryId);
-//			if (labelProvider != null) {
-//				// custom image.
-//				Image image = labelProvider.getImage(element);
-//				if (image != null) {
-//					return image;
-//				}
-//			}
-//		}
-//		return super.getImage(element);
-		return null;
+		return GruntPlugin.getImageDescriptor("/icons/gruntfile.png").createImage(); //$NON-NLS-1$
 	}
-
 
 	@Override
 	public Color getBackground(Object arg0) {

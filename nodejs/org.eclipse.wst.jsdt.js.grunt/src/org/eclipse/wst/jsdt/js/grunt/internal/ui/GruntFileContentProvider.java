@@ -1,34 +1,24 @@
 package org.eclipse.wst.jsdt.js.grunt.internal.ui;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.eclipse.core.internal.localstore.Bucket.Visitor;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.IMemento;
-import org.eclipse.ui.navigator.ICommonContentExtensionSite;
-import org.eclipse.ui.navigator.IPipelinedTreeContentProvider;
-import org.eclipse.ui.navigator.PipelinedShapeModification;
-import org.eclipse.ui.navigator.PipelinedViewerUpdate;
-import org.eclipse.wst.jsdt.core.IJavaScriptUnit;
 import org.eclipse.wst.jsdt.core.JavaScriptModelException;
-import org.eclipse.wst.jsdt.core.dom.ASTNode;
 import org.eclipse.wst.jsdt.core.dom.JavaScriptUnit;
-import org.eclipse.wst.jsdt.core.dom.Statement;
 import org.eclipse.wst.jsdt.js.grunt.internal.util.ASTUtil;
 import org.eclipse.wst.jsdt.js.grunt.internal.util.GruntVisitor;
 
-public class GruntFileContentProvider
-		implements ITreeContentProvider, IPipelinedTreeContentProvider, IResourceChangeListener, IResourceDeltaVisitor {
+public class GruntFileContentProvider implements ITreeContentProvider, IResourceChangeListener {
+	
+	private Viewer viewer;
+
+	private IResource resource;
 
 	protected static final Object[] EMPTY_ARRAY = new Object[0];
 
@@ -39,7 +29,10 @@ public class GruntFileContentProvider
 	 */
 	@Override
 	public void dispose() {
-		// do nothing
+	    if (resource != null) {
+	        resource.getWorkspace().removeResourceChangeListener(this);
+	        resource = null;
+	    }
 	}
 
 	/*
@@ -51,7 +44,17 @@ public class GruntFileContentProvider
 	 */
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-		// do nothing
+		   if (resource != null) {
+		        resource.getWorkspace().removeResourceChangeListener(this);
+		    }
+
+		    resource = (IResource) newInput;
+
+		    if (resource != null) {
+		        resource.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
+		    }
+
+		    this.viewer =  viewer;
 	}
 
 	/*
@@ -146,74 +149,7 @@ public class GruntFileContentProvider
 	}
 
 	@Override
-	public boolean visit(IResourceDelta arg0) throws CoreException {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
 	public void resourceChanged(IResourceChangeEvent arg0) {
-		System.out.println("Changed");
+		viewer.refresh();
 	}
-
-	@Override
-	public void init(ICommonContentExtensionSite arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void restoreState(IMemento arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void saveState(IMemento arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getPipelinedChildren(Object arg0, Set arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void getPipelinedElements(Object arg0, Set arg1) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Object getPipelinedParent(Object arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public PipelinedShapeModification interceptAdd(PipelinedShapeModification arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean interceptRefresh(PipelinedViewerUpdate arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public PipelinedShapeModification interceptRemove(PipelinedShapeModification arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean interceptUpdate(PipelinedViewerUpdate arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }

@@ -23,14 +23,11 @@ public class GruntVisitor extends ASTVisitor {
 	private static final String GULP = "gulp"; //$NON-NLS-1$
 	private static final String TASK= "task"; //$NON-NLS-1$
 	
-	
-	
 	public GruntVisitor() {
 		super();
 		this.tasks = new ArrayList<String>();
 	}
 	
-
 	@SuppressWarnings("unchecked")
 	public boolean visit(FunctionInvocation node) {
 		SimpleName functionName = node.getName();
