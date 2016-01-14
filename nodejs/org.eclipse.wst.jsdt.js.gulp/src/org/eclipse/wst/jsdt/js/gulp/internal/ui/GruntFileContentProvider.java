@@ -1,6 +1,7 @@
-package org.eclipse.wst.jsdt.js.grunt.internal.ui;
+package org.eclipse.wst.jsdt.js.gulp.internal.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -8,13 +9,14 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.wst.jsdt.core.JavaScriptModelException;
 import org.eclipse.wst.jsdt.core.dom.JavaScriptUnit;
-import org.eclipse.wst.jsdt.js.common.build.system.BuildTask;
-import org.eclipse.wst.jsdt.js.common.build.system.Task;
-import org.eclipse.wst.jsdt.js.common.build.system.util.ASTUtil;
-import org.eclipse.wst.jsdt.js.grunt.internal.util.GruntVisitor;
+import org.eclipse.wst.jsdt.js.gulp.internal.GruntTask;
+import org.eclipse.wst.jsdt.js.gulp.internal.Task;
+import org.eclipse.wst.jsdt.js.gulp.internal.util.ASTUtil;
+import org.eclipse.wst.jsdt.js.gulp.internal.util.GruntVisitor;
 
 public class GruntFileContentProvider implements ITreeContentProvider, IResourceChangeListener {
 	
@@ -77,7 +79,7 @@ public class GruntFileContentProvider implements ITreeContentProvider, IResource
 					children = visitor.getTasks().toArray();
 					for (Object o : children) {
 						
-						tasks.add(new BuildTask(o.toString(), (IFile) parentNode, false));
+						tasks.add(new GruntTask(o.toString(), (IFile) parentNode, false));
 					}
 				} catch (JavaScriptModelException e) {
 					// TODO Auto-generated catch block

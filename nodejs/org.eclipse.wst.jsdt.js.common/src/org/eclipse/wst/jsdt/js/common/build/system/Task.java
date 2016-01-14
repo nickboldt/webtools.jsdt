@@ -1,4 +1,4 @@
-package org.eclipse.wst.jsdt.js.grunt.internal;
+package org.eclipse.wst.jsdt.js.common.build.system;
 
 import org.eclipse.core.resources.IFile;
 

@@ -1,15 +1,18 @@
-package org.eclipse.wst.jsdt.js.grunt.internal.ui;
+package org.eclipse.wst.jsdt.js.gulp.internal.ui;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 import org.eclipse.jface.viewers.IColorProvider;
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.wst.jsdt.js.common.build.system.Task;
+import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.eclipse.wst.jsdt.js.gulp.GulpPlugin;
+import org.eclipse.wst.jsdt.js.gulp.internal.Task;
+import org.eclipse.jface.viewers.DelegatingStyledCellLabelProvider.IStyledLabelProvider;
 
 public class GruntLabelProvider extends LabelProvider implements IStyledLabelProvider, IColorProvider{
 	

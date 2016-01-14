@@ -1,13 +1,13 @@
-package org.eclipse.wst.jsdt.js.grunt.internal;
+package org.eclipse.wst.jsdt.js.common.build.system;
 
 import org.eclipse.core.resources.IFile;
 
-public class GruntTask implements Task {
+public class BuildTask implements Task {
 	private String name;
 	private boolean isDefault;
 	private IFile buildFile;
 	
-	public GruntTask(String name, IFile buildFile, boolean isDefault) {
+	public BuildTask(String name, IFile buildFile, boolean isDefault) {
 		this.name = name;
 		this.buildFile = buildFile;
 		this.isDefault = isDefault;

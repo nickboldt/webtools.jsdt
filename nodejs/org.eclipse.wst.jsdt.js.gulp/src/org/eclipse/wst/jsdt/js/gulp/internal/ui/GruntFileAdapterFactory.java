@@ -1,4 +1,4 @@
-package org.eclipse.wst.jsdt.js.grunt.internal.ui;
+package org.eclipse.wst.jsdt.js.gulp.internal.ui;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -9,7 +9,6 @@ public class GruntFileAdapterFactory implements IAdapterFactory {
 	private static Class[] PROPERTIES = new Class[] { IResource.class };
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	public Object getAdapter(Object element, Class key) {
 		JavaScriptUnit node = getJSBuildFileNode(element);
 		if (node == null) {

@@ -1,4 +1,4 @@
-package org.eclipse.wst.jsdt.js.grunt.internal.ui;
+package org.eclipse.wst.jsdt.js.gulp.internal.ui;
 
 import java.net.URL;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.Map;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.wst.jsdt.js.grunt.GruntPlugin;
+import org.eclipse.wst.jsdt.js.gulp.GulpPlugin;
 
 /**
  * Utility class to handle image resources.
@@ -25,15 +25,16 @@ public class ImageResource {
 
 
 	// General Object Images
+	public static final String IMG_GULPFILE = "gulp_16.png";
 	public static final String IMG_GRUNTFILE = "grunt_16.png";
 
 	static {
 		try {
 			String pathSuffix = "icons/";
-			ICON_BASE_URL = GruntPlugin.getDefault().getBundle()
+			ICON_BASE_URL = GulpPlugin.getDefault().getBundle()
 					.getEntry(pathSuffix);
 		} catch (Exception e) {
-			GruntPlugin.logError(e , "Images error: " + e.getMessage());
+			GulpPlugin.logError(e , "Images error: " + e.getMessage());
 		}
 	}
 
@@ -90,11 +91,11 @@ public class ImageResource {
 	 * Initialize the image resources.
 	 */
 	protected static void initializeImageRegistry() {
-		imageRegistry = GruntPlugin.getDefault().getImageRegistry();
+		imageRegistry = GulpPlugin.getDefault().getImageRegistry();
 		imageDescriptors = new HashMap<String, ImageDescriptor>();
 
 		// load general object images
-//		registerImage(IMG_GULPFILE, IMG_GULPFILE);
+		registerImage(IMG_GULPFILE, IMG_GULPFILE);
 		registerImage(IMG_GRUNTFILE, IMG_GRUNTFILE);
 
 	}
@@ -113,7 +114,7 @@ public class ImageResource {
 					ICON_BASE_URL, partialURL));
 			registerImageDescriptor(key, id);
 		} catch (Exception e) {
-			GruntPlugin.logError(e , "Error registering image" + e.getMessage());
+			GulpPlugin.logError(e , "Error registering image" + e.getMessage());
 		}
 	}
 
